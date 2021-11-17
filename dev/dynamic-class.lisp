@@ -21,10 +21,10 @@
 
 (defun (setf type->parameter-table) (value type)
   (let ((it (assoc type *parameter-dynamic-class-table*)))
-    (if it
-      (setf (cdr it) value)
-      (setf *parameter-dynamic-class-table*
-            (append *parameter-dynamic-class-table* (list (cons type value))))))
+	(if it
+		(setf (cdr it) value)
+		(setf *parameter-dynamic-class-table*
+			  (append *parameter-dynamic-class-table* (list (cons type value))))))
   (values value))
 
 (defun parameter->dynamic-class (table parameter)
