@@ -17,14 +17,22 @@
 (defvar *parameter-dynamic-class-table* nil)
 
 (defun type->parameter-table (type)
+  "Retrieve the 'table' of pairs registered with (add-parameter->dynamic-class) to TYPE.
+
+  Internally, the table is stored as an association list.
+
+  - Note: In its original usage, TYPE is a keyword, but any symbol is usable.
+	* TODO: Can arbitrary types be keys?  What about classes?
+"
   (cdr (assoc type *parameter-dynamic-class-table*)))
 
 (defun (setf type->parameter-table) (value type)
+  "Writer for `*parameter-dynamic-class-table*'."
   (let ((it (assoc type *parameter-dynamic-class-table*)))
-	(if it
-		(setf (cdr it) value)
-		(setf *parameter-dynamic-class-table*
-			  (append *parameter-dynamic-class-table* (list (cons type value))))))
+    (if it
+      (setf (cdr it) value)
+      (setf *parameter-dynamic-class-table*
+            (append *parameter-dynamic-class-table* (list (cons type value))))))
   (values value))
 
 (defun parameter->dynamic-class (table parameter)
