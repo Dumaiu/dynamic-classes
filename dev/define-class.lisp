@@ -95,10 +95,12 @@ from every class in superclasses."
 (defun find-or-create-class (root classes)
   "Try to find a class which is a subclass of root and all of the other `classes` as well. If no such class exists, then it will be created and returned."
   (or (find-existing-subclass root classes)
-      (let ((superclasses (remove-redundant-classes classes)))
-        (define-class (simple-define-class-name
-                       (remove-redundant-classes superclasses))
-          classes nil))))
+      (let* ((classes (cons root classes)) ; rebind
+             (superclasses (remove-redundant-classes classes))
+             (class-name (simple-define-class-name
+                          (remove-redundant-classes superclasses))))
+        (declare (symbol class-name))
+        (define-class class-name classes nil))))
 
 (defun variadic/find-or-create-class (root &rest *classes)
   #.(format nil "Synsugar for (~S)." 'find-or-create-class)
